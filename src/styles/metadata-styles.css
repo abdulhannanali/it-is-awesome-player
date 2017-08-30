@@ -1,0 +1,226 @@
+/* 
+ * Styles for the Metadata
+ * within app
+ */
+.app {
+    width: 100%;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+.app .interactive-controls {
+    float: left;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* 
+ * Styles for File Uploader 
+ * Makes the File Uploader look all lush and beautiful
+ */
+.file-uploader {
+    margin: 10px;
+    text-align: center;
+    margin: 10px;
+}
+
+.file-uploader label {
+    display: inline-block;
+    padding: 20px;
+    color: white;
+    border-radius: 100%;
+    border: 4px #1db954 solid;
+}
+
+.file-uploader label:hover {
+    color: #1db954;
+    border: 4px lightskyblue solid;
+}
+
+.file-uploader.loading label {
+    animation: changing-color 10s infinite;
+
+}
+
+.file-uploader .file-input .button-border {
+    border: 2px white solid;
+    width: 60px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.file-uploader.invalid .file-input label {
+    animation: invalid-indicator 2s infinite linear;
+}
+
+
+.file-uploader .header-text {
+    margin: 10px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.spotify-text {
+    color: #1db954;
+}
+
+.file-uploader label input {
+    display: none;
+}
+
+/**
+  * AudioImage
+  * Styles to display a better Album Art to 
+  * improve the application interface
+  */
+.app .track-image img {
+    width: 180px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.app .track-image {
+    margin: 30px;
+}
+
+.app .track-title {
+    padding-bottom: 6px;
+    font-size: 20px;
+    border-bottom: 4px white solid;
+}
+
+.app .track-year {
+    font-size: 12px;
+    font-weight: 400;
+    margin: 5px;
+}
+
+.app .track-title .placeholder {
+    display: inline-block;
+    background-color: white;
+    width: 180px;
+    height: 20px;
+}
+
+.app .track-title {
+    margin-bottom: 5px;
+}
+
+.app .artist-name {
+    margin-top: 5px;
+}
+
+.app .artist-name .placeholder {
+    display: inline-block;
+    width: 90px;
+    height: 20px;
+    background-color: white;
+}
+
+.app .track-title .small-placeholder {
+    display: inline-block;
+    width: 30px;
+    height: 15px;
+    background-color:#1db954;
+    margin-left: 5px;
+}
+
+.app .audio-controls {
+    margin: 20px;
+    padding: 20px;
+    padding-bottom: 80px;
+    background-color: #282828;
+}
+
+.app .metadata {
+    overflow: hidden;
+    padding: 10px 10px 10px 20px;    
+}
+
+.app .metadata .metadata-header {
+    font-size: 55px;
+    font-weight: 900;
+    margin: 10px 0 10px 0;
+}
+
+.app .metadata .metadata-fields {
+    margin: 20px;
+}
+
+/**
+  * metadata-field related styles
+  */
+.app .metadata-field {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.app .metadata-field .field-label {
+    font-size: 16px;
+    margin: 0px 2px 0px 2px;
+    color: white;
+}
+
+
+
+.app .metadata-field .field-value {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0px 2px 0px 2px;
+    color: lightgrey;
+}
+
+.app .metadata-field .field-value:hover {
+    color: white;
+    cursor: pointer;
+}
+/**
+  * Random CSS Animation
+  * Coincidentally, also one of my first CSS animations
+  * which is an incredible thing to accomplish, at least I think so
+  */
+@keyframes invalid-indicator {
+    0% {
+        border-color: white;
+    }
+
+    20% {
+        border-color: red;
+    }
+
+    60% {
+        border-color: red;
+    }
+
+    100% {
+        border-color: white;
+    }
+}
+
+@keyframes changing-color {
+    0% {
+        border-color: red;
+    }
+
+    20% {
+        border-color: yellowgreen;
+    }
+
+    40% {
+        border-color: pink;
+    }
+
+    60% {
+        border-color: lightskyblue;
+    }
+
+    80% {
+        border-color: violet;
+    }
+
+    100% {
+        border-color: peru;
+    }
+}
