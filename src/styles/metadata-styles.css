@@ -130,7 +130,6 @@
     margin: 20px;
     padding: 20px;
     padding-bottom: 80px;
-    background-color: #282828;
 }
 
 .app .metadata {
@@ -140,12 +139,50 @@
 
 .app .metadata .metadata-header {
     font-size: 55px;
-    font-weight: 900;
     margin: 10px 0 10px 0;
+    font-weight: 900;
+    display: inline-block;
+    box-sizing: border-box;
+    
+    border: 4px solid;
+    animation: changing-color 3s ease-in infinite;
+    padding: 10px;
+    background-color: white;
+    color: black;
 }
 
 .app .metadata .metadata-fields {
     margin: 20px;
+    padding: 10px;
+
+    border-top: 3px white solid;
+    border-right: 5px white solid;
+}
+
+.app .metadata .metadata-placeholder {
+    margin: 30px;
+    padding: 10px;
+    min-height: 40px;
+    font-size: 30px;
+
+    border-bottom: 1px white solid;
+    border-left: 2px white solid;
+}
+
+.app .metadata.loading .metadata-fields {
+    animation: changing-color 2s linear infinite;
+}
+
+.app .metadata.loading .metadata-placeholder {
+    animation: changing-color 2s linear infinite;
+}
+
+.app .metadata .spinner {
+    display: none;
+}
+
+.app .metadata.loading .spinner {
+    display: block;
 }
 
 /**
@@ -176,6 +213,42 @@
     color: white;
     cursor: pointer;
 }
+
+/**
+  * Error Related styles
+  */
+.app .error-display {
+    padding: 20px;
+    overflow: hidden;
+    display: block;
+}
+
+.app .error-header {
+    padding: 20px;
+    color: peru;
+    font-size: 45px;
+    font-weight: 900;
+}
+
+.app .error-display .error-message {
+    color: lightpink;
+    
+    margin: 30px;
+    margin-top: 10px;
+    border-top: 1px;
+    padding: 20px;
+
+    border-top: 2px red solid;
+    border-left: 2px red solid;
+
+    font-size: 25px;
+}
+
+.app .error-display .error-message .developer a {
+    color: lightgreen;
+    font-size: 30px;
+}
+
 /**
   * Random CSS Animation
   * Coincidentally, also one of my first CSS animations
@@ -209,7 +282,7 @@
     }
 
     40% {
-        border-color: pink;
+        border-color: green;
     }
 
     60% {
@@ -224,3 +297,52 @@
         border-color: peru;
     }
 }
+
+
+/**
+  * Spinner from Tobias Ahlin SpinKit
+  * tobiasahlin.com/spinkit/
+  */    
+.spinner {
+    width: 230px;
+    height: 230px;
+  
+    position: relative;
+    margin: 30px auto;
+
+    border-bottom: 3px white solid;
+  }
+  
+  .double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: white;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+  }
+  
+  .double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+  }
+  
+  @-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+  }
+  
+  @keyframes sk-bounce {
+    0%, 100% { 
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 50% { 
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
+  }

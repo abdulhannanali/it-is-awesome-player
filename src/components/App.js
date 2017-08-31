@@ -13,6 +13,7 @@ import FileWorkerClient from '../fileWorker.client';
 import AudioImage from './AudioImage';
 import TrackInfo from './TrackInfo';
 import Metadata from './Metadata';
+import ErrorDisplay from './ErrorDisplay'; 
 
 import '../styles/metadata-styles.css';
 
@@ -33,9 +34,9 @@ interactiveContainer.appendChild(audioControls);
 containerFragment.appendChild(interactiveContainer);
 
 const metadata = new Metadata(containerFragment);
+const errorContainer = ErrorDisplay(containerFragment);
 
 const workerClient = FileWorkerClient();
-
 
 // Therapeutic ASCII ART feels amazing
 
@@ -46,28 +47,39 @@ const workerClient = FileWorkerClient();
  **************************************|*/
 
 /**
- * Event call when the video starts playing to add 
- * some useful animation effects within the application
- */
-function _onPlayVideo () {}
-
-/**
  * Upload handler to handle the music uploads
  */
 function _onChange(file) {
-    setLoading();
     resetPlayer();
+    setLoading();
     
+    // Bootstrapping process to throw an error a single time
+
     workerClient.processAudio(file)
     .then(function (audioEvent) {
         const url = audioEvent.data.url;
         const tags = audioEvent.data.tags;
-        
         setAudio(url, tags, file);
     })
     .catch(function (error) {
-        console.error(error);
+        setLoading(true);
+        displayError(error);
     });
+}
+
+function _onPlayVideo(event) {
+
+}
+
+/**
+ * Prepares the UI to display the error
+ */
+function displayError(error) {
+    console.log('Logging error to the display');
+    console.error(error);
+
+    metadata.hide();
+    errorContainer.show();
 }
 
 /**
@@ -91,13 +103,15 @@ function setAudio(url, tags, file) {
 function resetPlayer() {
     audioPlayer.resetSrc();
     trackInfo.resetTrackInfo();
-    metadata.setInitialPlaceholder();
+    metadata.reset();
+    errorContainer.hide();
     audioImage.setImage();
 }
 
 /** Sets the loading state within the application */
 function setLoading(loaded = false) {
     uploader.setLoader(loaded);
+    metadata.setLoader(loaded);
 }
 
 /**
@@ -111,6 +125,3 @@ function App() {
 }
 
 export default App
-export {
-    displayError
-}

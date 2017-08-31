@@ -1,4 +1,7 @@
-import { upperFirst, isString, isArray, isEmpty } from 'lodash-es';
+import upperFirst from 'lodash-es/upperFirst';
+import isString from 'lodash-es/isString';
+import isArray from 'lodash-es/isArray';
+import isEmpty from 'lodash-es/isEmpty';
 
 const ORDERED_SUPPORTED_FIELDS = [
     'title',

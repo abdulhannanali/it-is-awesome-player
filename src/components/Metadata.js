@@ -16,7 +16,7 @@
  * the purpose of making this application worth using, we can take in this information.
  */
 import transformTags from '../lib/tagsTransform';
-import { isEmpty } from 'lodash-es';
+import isEmpty from 'lodash-es/isEmpty';
 
 
 /**
@@ -26,7 +26,9 @@ import { isEmpty } from 'lodash-es';
 const FIELDS_NOT_SUPPORTED = ['picture', 'disk', 'track'];
 
 const NO_TAGS_PLACEHOLDER = 'Track does not contain any Metadata information along with it';
+
 const DEFAULT_INITIAL_PLACEHOLDER = 'Metadata will appear here once file is loaded';
+const DEFAULT_COMPLETED_PLACEHOLDER = 'Metadata is available for the track';
 
 function Metadata(container, options) {
     // TODO Validate the container here
@@ -56,6 +58,7 @@ Metadata.prototype.setTags = function setTags(tags) {
     this.metadataPlaceholder.innerHTML = '';
     this.fieldsContainer.innerHTML = '';
 
+    this.setCompletedPlaceholder();
     this.fieldsContainer.appendChild(fields);
 }
 
@@ -84,7 +87,7 @@ Metadata.prototype._metadataField = function _metadataField(title, value) {
     fieldLabel.classList.add('field-label');
     fieldValue.classList.add('field-value');
 
-    fieldLabel.textContent = upperFirst(title);
+    fieldLabel.textContent = title;
     fieldValue.textContent = value;
 
     fieldContainer.appendChild(fieldValue);
@@ -112,32 +115,48 @@ Metadata.prototype._create = function _create() {
     const metadataPlaceholder = document.createElement('div');
     const fieldsContainer = document.createElement('div');
     const fieldsHeader = document.createElement('div');
+    
+    const spinner = this._createLoader();
 
     fieldsHeader.textContent = 'Metadata';
 
     metadataContainer.classList.add('metadata');
+    metadataPlaceholder.classList.add('metadata-placeholder')
     fieldsContainer.classList.add('metadata-fields');
     fieldsHeader.classList.add('metadata-header');
     
     metadataContainer.appendChild(fieldsHeader);
     metadataContainer.appendChild(metadataPlaceholder);
+    metadataContainer.appendChild(spinner);
     metadataContainer.appendChild(fieldsContainer);
 
     this.metadataContainer = metadataContainer;
     this.metadataPlaceholder = metadataPlaceholder;
     this.fieldsContainer = fieldsContainer;
     this.fieldsHeader = fieldsHeader;
+    this.spinner = spinner;
 
     this.fieldsContainer.addEventListener('click', this._onClickField);
+    
     this.setInitialPlaceholder();
+}
+
+Metadata.prototype._showFieldsContainer = function _showFieldsContainer(visible = true) {
+    this.fieldsContainer.style.display = visible ? 'block' : 'none';
+}
+
+Metadata.prototype._showFieldsPlaceholder = function _showFieldsPlaceholder(visible = true) {
+    this.metadataPlaceholder.style.display = visible ? 'block' : 'none';
 }
 
 /**
  * Resets the Metadata Fields
  * to contain the required data
  */
-Metadata.prototype._reset = function _resetMetadata() {
-    this.fieldContainer.innerHTML = '';
+Metadata.prototype.reset = function reset() {
+    this.fieldsContainer.innerHTML = '';
+    this.setInitialPlaceholder();
+    this.show();
 }
 
 Metadata.prototype._onClickField = function _onClickField(event) {
@@ -145,7 +164,7 @@ Metadata.prototype._onClickField = function _onClickField(event) {
     const elementLabel = targetElement.textContent;
 
     if (targetElement.classList.contains('field-value')) {
-        window.open('https://lmgtfy.com?q=' + targetElement.textContent, '_blank');
+        window.open('https://google.com?q=' + targetElement.textContent, '_blank');
     }
 }
 
@@ -154,7 +173,10 @@ Metadata.prototype._onClickField = function _onClickField(event) {
  */
 Metadata.prototype.setInitialPlaceholder = function setInitialPlaceholder() {
     this.metadataPlaceholder.innerHTML = DEFAULT_INITIAL_PLACEHOLDER;
-    this.fieldsContainer.innerHTML = '';
+}
+
+Metadata.prototype.setCompletedPlaceholder = function setCompletedPlaceholder() {
+    this.metadataPlaceholder.innerHTML = DEFAULT_COMPLETED_PLACEHOLDER;
 }
 
 Metadata.prototype.hide = function hide() {
@@ -170,6 +192,32 @@ Metadata.prototype.show = function show() {
  */
 Metadata.prototype._append = function _append() {
     this.container.appendChild(this.metadataContainer);
+}
+
+/**
+ * Initializes the loader to be used during the application is being 
+ * loaded
+ */
+Metadata.prototype._createLoader = function _createLoader() {
+    const spinner = document.createElement('div');
+    spinner.classList.add('spinner');
+
+    spinner.innerHTML = `
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    ` 
+    return spinner;
+}
+
+/**
+ * Sets the loading state for the Metadata
+ */
+Metadata.prototype.setLoader = function setLoading(loaded) {
+    if (!loaded) {
+        this.metadataContainer.classList.add('loading');
+    } else {
+        this.metadataContainer.classList.remove('loading');
+    }
 }
 
 export default Metadata;
