@@ -26,5 +26,29 @@
         <div class="footer">
             Performant Media Player using Web Worker to parse the Metadata in the files by <a href="https://github.com/abdulhannanali">@abdulhannanali</a>. Code is licensed under MIT. <a href="https://github.com/abdulhannanali/it-is-awesome-player/">Fork it on Github</a> or maybe just <a href="https://github.com/abdulhannanali/it-is-awesome-player">Star it</a> to encourage the work here :)
         </div>
+
+        <!-- Facebook SDK -->
+
+
+<script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : 'your-app-id',
+            xfbml      : true,
+            version    : 'v2.7'
+          });
+          FB.AppEvents.logPageView();
+        };
+      
+        (function(d, s, id){
+           var js, fjs = d.getElementsByTagName(s)[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement(s); js.id = id;
+           js.src = "//connect.facebook.net/en_US/sdk.js";
+           fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+      </script>
+      
+      
     <script type="text/javascript" src="mainApp.bundle.js"></script></body>
 </html>
