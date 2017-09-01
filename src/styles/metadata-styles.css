@@ -54,6 +54,10 @@
     animation: invalid-indicator 2s infinite linear;
 }
 
+.file-uploader.play .file-input label {
+    animation: file-play 2s infinite;
+}
+
 
 .file-uploader .header-text {
     margin: 10px;
@@ -80,7 +84,29 @@
     border-radius: 50%;
 }
 
+.app .track-image .image-overlay {
+    background: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    transition: all 0.4s ease-in-out 0s;
+}
+
+.app .track-image:hover .image-overlay {
+    opacity: 1;
+}
+
+.app .track-image.fade .image-overlay {
+    opacity: 1;
+}
+
 .app .track-image {
+    position: relative;
     margin: 30px;
 }
 
@@ -345,4 +371,31 @@
       transform: scale(1.0);
       -webkit-transform: scale(1.0);
     }
+  }
+
+
+  @keyframes file-play {
+      0% {
+          border-color: lightgreen;
+      }
+
+      25% {
+          border-color: white;
+      }
+
+      50% {
+          border-color: lightgreen;
+      }
+
+      70% {
+          border-color: white;
+      }
+
+      95% {
+          border-color: lightgreen;
+      }
+
+      100% {
+          border-color: white;
+      }
   }

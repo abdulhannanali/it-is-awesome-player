@@ -14,8 +14,15 @@ import AudioImage from './AudioImage';
 import TrackInfo from './TrackInfo';
 import Metadata from './Metadata';
 import ErrorDisplay from './ErrorDisplay'; 
+import mitt from 'mitt';
 
 import '../styles/metadata-styles.css';
+
+/**
+ * Event Emitter to be used within the application
+ * named as mitt.
+ */
+const emitter = mitt();
 
 const audioControls = document.createElement('div');
 audioControls.classList.add('audio-controls');
@@ -25,8 +32,8 @@ interactiveContainer.classList.add('interactive-controls');
 
 const containerFragment = document.createDocumentFragment();
 
-const uploader = Uploader(interactiveContainer, {});
-const audioImage = AudioImage(audioControls);
+const uploader = Uploader(interactiveContainer, { emitter });
+const audioImage = AudioImage(audioControls, { emitter });
 const trackInfo = TrackInfo(audioControls);
 const audioPlayer = AudioPlayer(audioControls);
 
@@ -38,13 +45,72 @@ const errorContainer = ErrorDisplay(containerFragment);
 
 const workerClient = FileWorkerClient();
 
-// Therapeutic ASCII ART feels amazing
-
 /**************************************|
  **************************************|
  ***** CENTRALIZED EVENT HANDLERS******|
  **************************************|
  **************************************|*/
+
+/**
+ * Approaches to Event Handling within the application 
+ * we are building
+ * 
+ * First:
+ * 
+ *  Create a centralized event handler that's passed to 
+ *  the each component and the events are emitted from the App.js.
+ * 
+ *  What are the pros of this approach?
+ *  Creating such an event handling mechanism can lead to logic decoupling 
+ *  between various components where App doesn't make an assumption of what methods are 
+ *  called for various components providing much more flexibility.
+ * 
+ *  However, this will lead to dependance of an external event emitter
+ *  but based on our program that might not be a huge issue, so this approach can considerably 
+ *  improve the flow for us in the application.
+ * 
+ * Second Approach:
+ *   
+ *  Proxies between the observers in the applications. Proxies are going to be helpful in calling
+ *  different functions.
+ *  
+ *  Since an emitter object is not pased, logic related to implementing the listeners between
+ *  application will have to be implemented ourselves.
+ * 
+ *  Pros of this approach:
+ *    Less memory overhead, straightforward implementation,
+ *    no need of playing with event emitters and complicating lives,
+ *    using an external interface.
+ * 
+ *  Cons of this approach:
+ *    How are the events going to be removed if needed?
+ *    Boilerplate code within the application that can be eliminated to an extent using 
+ *    our Emitter approach
+ * 
+ * Based on the flexibility and less boilerplate code, I am going for the first more simple approach
+ * since, it'll give us an event emitter that can be used to talk through the whole application 
+ * without making the flow more complicated. 
+ * 
+ * However in the future the second approach can also be considered, if I am ready to undertake this huge task.
+ */
+
+function _attachAudioEvents() {
+    const element = audioPlayer.audioElement;
+
+    function onPlay(event) {
+        emitter.emit('play', event);
+    }
+    
+    function onPause() {
+        emitter.emit('pause', event);
+    }
+
+
+    audioPlayer.audioElement.addEventListener('play', onPlay);
+    audioPlayer.audioElement.addEventListener('pause', onPause);
+}
+
+_attachAudioEvents();
 
 /**
  * Upload handler to handle the music uploads
@@ -65,10 +131,6 @@ function _onChange(file) {
         setLoading(true);
         displayError(error);
     });
-}
-
-function _onPlayVideo(event) {
-
 }
 
 /**

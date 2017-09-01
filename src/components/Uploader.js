@@ -40,6 +40,8 @@ function Uploader(container, options) {
     
     const inputType = 'file';
 
+    const emitter = options.emitter;
+
     let className = options.className || DEFAULT_UPLOADER_CLASS;
     let label = options.label || DEFAULT_UPLOADER_TEXT;
     let validator = options.validator || defaultValidator;
@@ -57,6 +59,39 @@ function Uploader(container, options) {
 
     if (!options.hasOwnProperty('attach') || options.attach === true) _attachUploader();
     
+    if (emitter) {
+        _attachAudioEvents();
+    }
+
+    function _attachAudioEvents() {
+        emitter.on('play', onPlay);
+        emitter.on('pause', onPause);
+
+        function onPlay() {
+            addPlayEffect();
+        }
+
+        function onPause() {
+            removePlayEffect();
+        }
+    }
+
+    /**
+     * Adds an effect for playing the file
+     */
+    function addPlayEffect() {
+        wrapper.classList.add('play');
+    }
+
+    /**
+     * Removes the effect of when the audio is being played
+     */
+    function removePlayEffect() {
+        wrapper.classList.remove('play');
+    }
+
+    _attachAudioEvents();
+
     /**
      * event handler for the file change event
      * @param {Function} callback 
@@ -91,7 +126,6 @@ function Uploader(container, options) {
         const validation = validator(file);
         const result = validation.result;
 
-        console.log(wrapper);
         if (result) {
             // Calling the callback the first thing
             callback(file);

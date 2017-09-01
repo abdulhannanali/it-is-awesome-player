@@ -10,13 +10,50 @@ const DEFAULT_ALT = 'Placeholder Image for the Track';
  * @param {*} options 
  */
 function AudioImage(wrapper, options) {
-    options = {};
+    options = options || {};
 
+    const emitter = options.emitter;
     const currentImage = document.createElement('img');
+
+    const imageOverlay = document.createElement('div');
     const imageContainer = document.createElement('div');
     
     imageContainer.className = options.className || DEFAULT_TRACK_CLASS;
-    imageContainer.appendChild(currentImage);   
+    imageOverlay.className = 'image-overlay';
+    
+    imageContainer.appendChild(imageOverlay);
+    imageContainer.appendChild(currentImage);
+
+    fade();
+
+    function _attachListeners() {
+        emitter.on('play', _onPlay);
+        emitter.on('pause', _onPause);
+    }
+
+    function _onPlay() {
+        removeFade();
+    }
+
+    function _onPause() {
+        fade();
+    }
+
+
+    /**
+     * Fade the image by adding the appropriate class to the image
+     */
+    function fade() {
+        imageContainer.classList.add('fade');
+    }
+
+    function removeFade() {
+        imageContainer.classList.remove('fade');
+    }
+
+    if (emitter) {
+        _attachListeners();
+    }
 
     /**
      * setImage

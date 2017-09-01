@@ -39,11 +39,5 @@ module.exports = {
             },
         ]
     },
-    plugins: [
-        new HTMLWebpackPlugin({
-            title: 'Awesome music player',
-            template: 'src/templates/index.html'
-        }),
-    ]
-
+    plugins: []
 }

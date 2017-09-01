@@ -1,5 +1,6 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
     devtool: 'inline-source-map',
@@ -14,7 +15,12 @@ module.exports = merge(common, {
             }
         ]
     },
-    plugins: [],
+    plugins: [
+        new HTMLWebpackPlugin({
+            title: 'Awesome music player',
+            template: 'src/templates/index.html'
+        }),
+    ],
     devServer: {
         contentBase: './dist'
     }
