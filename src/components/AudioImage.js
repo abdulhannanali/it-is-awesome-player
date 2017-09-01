@@ -26,19 +26,6 @@ function AudioImage(wrapper, options) {
 
     fade();
 
-    function _attachListeners() {
-        emitter.on('play', _onPlay);
-        emitter.on('pause', _onPause);
-    }
-
-    function _onPlay() {
-        removeFade();
-    }
-
-    function _onPause() {
-        fade();
-    }
-
 
     /**
      * Fade the image by adding the appropriate class to the image
@@ -51,9 +38,6 @@ function AudioImage(wrapper, options) {
         imageContainer.classList.remove('fade');
     }
 
-    if (emitter) {
-        _attachListeners();
-    }
 
     /**
      * setImage
@@ -81,6 +65,8 @@ function AudioImage(wrapper, options) {
 
     return {
         setImage,
+        fade,
+        removeFade
     };
 }
 

@@ -95,20 +95,22 @@ const workerClient = FileWorkerClient();
  */
 
 function _attachAudioEvents() {
-    const element = audioPlayer.audioElement;
-
-    function onPlay(event) {
-        emitter.emit('play', event);
-    }
-    
-    function onPause() {
-        emitter.emit('pause', event);
-    }
-
-
     audioPlayer.audioElement.addEventListener('play', onPlay);
     audioPlayer.audioElement.addEventListener('pause', onPause);
 }
+
+/**
+ * onPlay event handler
+ */
+function onPlay(event) {
+    audioImage.removeFade();
+    uploader.addPlayEffect();
+}
+
+function onPause(event) {
+    audioImage.fade();
+    uploader.removePlayEffect();
+} 
 
 _attachAudioEvents();
 

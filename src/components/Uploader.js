@@ -58,23 +58,6 @@ function Uploader(container, options) {
     _header = _createTextInput(label);
 
     if (!options.hasOwnProperty('attach') || options.attach === true) _attachUploader();
-    
-    if (emitter) {
-        _attachAudioEvents();
-    }
-
-    function _attachAudioEvents() {
-        emitter.on('play', onPlay);
-        emitter.on('pause', onPause);
-
-        function onPlay() {
-            addPlayEffect();
-        }
-
-        function onPause() {
-            removePlayEffect();
-        }
-    }
 
     /**
      * Adds an effect for playing the file
@@ -89,8 +72,6 @@ function Uploader(container, options) {
     function removePlayEffect() {
         wrapper.classList.remove('play');
     }
-
-    _attachAudioEvents();
 
     /**
      * event handler for the file change event
@@ -173,6 +154,8 @@ function Uploader(container, options) {
         onChange: onChange,
         getFileInput: getFileInput,
         setLoader,
+        addPlayEffect: addPlayEffect,
+        removePlayEffect: removePlayEffect,
     }
 }
 
