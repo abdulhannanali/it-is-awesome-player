@@ -1,5 +1,7 @@
 # Spotify Music Player
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/abdulhannanali/it-is-awesome-player.svg)](https://greenkeeper.io/)
+
 Spotify Music Player to play a file from the computer, the file can be any of the 
 given file. This provides a browser based 60fps Music Player also parsing the 
 Metadata for us, to make the experience complete for the user. This provides a 
